@@ -1,16 +1,16 @@
 import sys
 from random import randint
 
+from PyQt6 import uic
 from PyQt6.QtCore import QPoint
 from PyQt6.QtGui import QPainter, QColor
 from PyQt6.QtWidgets import QApplication, QMainWindow
-from ui import Ui_MainWindow
 
 
-class MyWidget(QMainWindow, Ui_MainWindow):
+class MyWidget(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.setupUi(self)
+        uic.loadUi('UI.ui', self)
         self.circles = []
         self.pushButton.clicked.connect(self.add)
 
@@ -18,10 +18,7 @@ class MyWidget(QMainWindow, Ui_MainWindow):
         r = randint(10, 50)
         x = randint(50, 550)
         y = randint(50, 550)
-        rr = randint(0, 255)
-        gg = randint(0, 255)
-        bb = randint(0, 255)
-        self.circles.append((x, y, r, rr, gg, bb))
+        self.circles.append((x, y, r))
         self.update()
 
     def paintEvent(self, event):
@@ -31,8 +28,8 @@ class MyWidget(QMainWindow, Ui_MainWindow):
         qp.end()
 
     def draw_circles(self, qp):
-        for x, y, r, rr, gg, bb in self.circles:
-            qp.setBrush(QColor(rr, gg, bb))
+        qp.setBrush(QColor(255, 255, 0))
+        for x, y, r in self.circles:
             qp.drawEllipse(QPoint(x, y), r, r)
 
 
